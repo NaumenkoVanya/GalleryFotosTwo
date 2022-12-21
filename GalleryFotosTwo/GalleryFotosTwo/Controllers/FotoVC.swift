@@ -8,6 +8,8 @@
 import UIKit
 
 class FotoVC: UIViewController {
+    
+    var imagePicker: UIImagePickerController!
 
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -19,6 +21,15 @@ class FotoVC: UIViewController {
         self.collectionView.register(UINib(nibName: "ImegaCVCell", bundle: nil), forCellWithReuseIdentifier: "ImegaCVCell")
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
+    }
+    @IBAction func fotoCetImage(_ sender: Any) {
+        
+        imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = true
+        
+        present(imagePicker, animated: true)
     }
 }
 
@@ -42,5 +53,17 @@ extension FotoVC: UICollectionViewDataSource, UICollectionViewDelegate,UICollect
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+    }
+}
+
+extension FotoVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        print(info)
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
     }
 }
